@@ -1,0 +1,67 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="row">
+   <div class="col-4">
+        <div id="countries-container">
+            <partial name="_CountryListPartial" model="@Model.countryViewModels" />
+        </div>
+   </div>
+    <div class="col-4">
+        <div id="state-container">
+            <partial name="_StateListPartial" model="@Model.stateViewModels" />
+        </div>
+    </div>
+    <div class="col-4">
+        <div id="city-container">
+            <partial name="_CityListPartial" model="@Model.cityViewModels" />
+        </div>
+    </div>
+    
+</div>
+
+
+@section Scripts {
+    <script>
+      
+        $(document).on('keyup', '#countryInput', function () {
+            var value = $(this).val().toLowerCase();
+            $("#countryList li").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+        });
+        $(document).on('keyup', '#cityInput', function () {
+            var value = $(this).val().toLowerCase();
+            $("#cityList li").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+        });
+        $(document).on('keyup', '#stateInput', function () {
+            var value = $(this).val().toLowerCase();
+            $("#stateList li").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+        });
+    </script>
+
+    <script>
+        $(document).on('click', '.country-link', function () {
+            var countryId = $(this).data('country-id');
+            var url = $(this).data('url');
+            $.get(url, { countryId: countryId }, function (data) {
+                $('#state-container').html(data);
+            });
+            $('#city-container').find("#cityList").empty()
+        });
+        $(document).on('click', '.state-link', function () {
+            var stateId = $(this).data('state-id');
+            var url = $(this).data('url');
+            $.get(url, { stateId: stateId }, function (data) {
+                $('#city-container').html(data);
+            });
+        });
+    </script>
+}

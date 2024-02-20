@@ -1,0 +1,18 @@
+﻿@using CountryStateCity.WEB.ViewModels;
+@model List<CountryViewModel>
+@{
+
+}
+
+
+<h2>Country</h2>
+<input class="form-control" id="countryInput" type="text" placeholder="Search..">
+<br>
+<ul class="list-group list-unstyled list-item-pointer list-container" id="countryList">
+    @foreach (var country in Model)
+    {
+        <li>
+            <a class="list-group-item country-link" data-country-id="@country.Id" data-url="@Url.Page("Index", "GetStates")">@country.Name <span class="text-success">(@country.iso3)</span>  <i class="fas fa-arrow-right text-danger float-end"></i></a>
+        </li>
+    }
+</ul>
